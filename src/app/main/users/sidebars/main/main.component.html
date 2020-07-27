@@ -1,0 +1,52 @@
+<div class="sidebar-content">
+
+    <div class="card">
+
+        <!-- SIDEBAR HEADER -->
+        <div class="header p-24" fxLayout="row" fxLayoutAlign="start center">
+
+            <!-- USER -->
+            <img [src]="user.avatar" class="avatar mr-16" [alt]="user.name"/>
+            <a><span class="h5">{{user.name}} {{user.firstName}} {{user.secondName}}</span></a>
+            <!-- / USER -->
+
+        </div>
+        <!-- / SIDEBAR HEADER -->
+
+        <!-- SIDEBAR CONTENT -->
+        <div class="content py-16" fusePerfectScrollbar>
+
+            <div class="nav material2">
+
+                <div class="nav-item" aria-label="inbox">
+                    <a class="nav-link" matRipple (click)="changeFilter('all')"
+                       [ngClass]="{'active accent':filterBy ==='all'}">
+                        <span class="title">Todos los Contactos</span>
+                    </a>
+                </div>
+
+                <div class="nav-item" aria-label="super users" (click)="changeFilter(eRoles.MASTER)">
+                    <a class="nav-link" matRipple [ngClass]="{'active accent':filterBy === eRoles.MASTER}">
+                        <div class="title">Super Usuarios</div>
+                    </a>
+                </div>
+
+                <div class="nav-item" aria-label="admin" (click)="changeFilter(eRoles.ADMIN)">
+                    <a class="nav-link" matRipple [ngClass]="{'active accent':filterBy === eRoles.ADMIN}">
+                        <div class="title">Administradores</div>
+                    </a>
+                </div>
+
+                <div class="nav-item" aria-label="student" (click)="changeFilter(eRoles.STUDENT)">
+                    <a class="nav-link" matRipple [ngClass]="{'active accent':filterBy === eRoles.STUDENT}">
+                        <div class="title">Estudiantes</div>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- / SIDEBAR CONTENT -->

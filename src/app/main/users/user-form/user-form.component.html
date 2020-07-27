@@ -1,0 +1,115 @@
+<div class="dialog-content-wrapper">
+    <mat-toolbar matDialogTitle class="mat-accent m-0">
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="title dialog-title">{{dialogTitle}}</span>
+            <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+
+        <mat-toolbar-row class="toolbar-bottom py-16" fxLayout="column" fxLayoutAlign="center center">
+            <img [src]="user.avatar" class="avatar contact-avatar huge m-0"
+                 [alt]="user.name"/>
+            <div class="contact-name">{{user.name}} {{user.firstName}} {{user.secondName}}</div>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
+
+        <form [formGroup]="userForm">
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Nombre de Usuario</mat-label>  
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <input name="username" formControlName="username" matInput required>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>{{ (action === 'edit') ? 'Nueva Contraseña' : 'Contraseña'}}</mat-label>
+                    <mat-icon matSuffix class="secondary-text">vpn_key</mat-icon>
+                    <input name="password" type="password" formControlName="password" [required]="requiredPassword" matInput>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Correo Electrónico</mat-label>
+                    <mat-icon matSuffix class="secondary-text">email</mat-icon>
+                    <input name="email" formControlName="email" matInput required type="email">
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Nombre</mat-label>  
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <input name="name" formControlName="name" matInput required>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Apellido Paterno</mat-label>
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <input name="firstName" formControlName="firstName" matInput required>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Apellido Materno</mat-label>
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <input name="secondName" formControlName="secondName" matInput>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Role</mat-label>
+                    <mat-icon matSuffix class="secondary-text">domain</mat-icon>
+                    <mat-select formControlName="role" name="role" required>
+                        <mat-option *ngFor="let role of roles" [value]="role.value">
+                          {{role.viewValue}}
+                        </mat-option>
+                      </mat-select>
+                </mat-form-field>
+            </div>
+
+        </form>
+
+    </div>
+
+    <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
+
+        <button *ngIf="action === 'edit'"
+                mat-button
+                class="mr-8"
+                (click)="matDialogRef.close(['delete',userForm])"
+                aria-label="Delete"
+                matTooltip="Delete">
+            ELIMINAR
+        </button>
+
+        <button *ngIf="action !== 'edit'"
+                mat-button
+                class="save-button"
+                (click)="onSubmitAddUser()"
+                [disabled]="userForm.invalid"
+                aria-label="SAVE">
+            AGREGAR
+        </button>
+
+        <button *ngIf="action === 'edit'"
+                mat-button
+                class="save-button"
+                (click)="onSubmitUpdateUser()"
+                [disabled]="userForm.invalid"
+                aria-label="SAVE">
+            GUARDAR
+        </button>
+
+    </div>
+</div>
