@@ -14,6 +14,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { FuseUtils } from '@fuse/utils';
 import { M } from '@angular/cdk/keycodes';
+import { Contact } from '../contact.model';
 
 @Component({
     selector     : 'contacts-contact-list',
@@ -27,7 +28,7 @@ export class ContactsContactListComponent implements OnInit, OnDestroy
     @ViewChild('dialogContent', {static: false})
     dialogContent: TemplateRef<any>;
 
-    contacts: any;
+    contacts: Contact[];
     user: any;
     dataSource: FilesDataSource | null;
     displayedColumns = ['checkbox', 'avatar', 'name', 'email', 'phone', 'jobTitle', 'buttons'];
@@ -115,6 +116,7 @@ export class ContactsContactListComponent implements OnInit, OnDestroy
         this._contactsService.onSearchTextChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((searchText) => {
+                console.log(searchText);
                 this.dataSource.filterSearchText = searchText;
             });
     }
@@ -214,18 +216,17 @@ export class ContactsContactListComponent implements OnInit, OnDestroy
      *
      * @param contactId
      */
-    toggleStar(contactId): void
-    {
-        if ( this.user.starred.includes(contactId) )
+    toggleStar(id_contact: number): void {
+
+        if ( this.user.starredContacts.includes(id_contact) )
         {
-            this.user.starred.splice(this.user.starred.indexOf(contactId), 1);
+            this._contactsService.unToggleStar(id_contact);
         }
         else
         {
-            this.user.starred.push(contactId);
+            this._contactsService.toggleStar(id_contact);
         }
-
-        this._contactsService.updateUserData(this.user);
+        
     }
 }
 
@@ -323,7 +324,6 @@ export class FilesDataSource extends DataSource<any>
     filterDataText(data): any {
 
         if ( this.filterSearchText && this.filterSearchText !== '' ) {
-            console.log('firstPage');
             return FuseUtils.filterArrayByString(data, this.filterSearchText);
         }
         return data;

@@ -6,7 +6,7 @@
         <ng-container matColumnDef="checkbox">
             <mat-header-cell *matHeaderCellDef></mat-header-cell>
             <mat-cell *matCellDef="let contact">
-                <mat-checkbox [(ngModel)]="checkboxes[contact.id]" (ngModelChange)="onSelectedChange(contact.id)"
+                <mat-checkbox [(ngModel)]="checkboxes[contact.id_contact]" (ngModelChange)="onSelectedChange(contact.id_contact)"
                               (click)="$event.stopPropagation()">
                 </mat-checkbox>
             </mat-cell>
@@ -25,7 +25,7 @@
         <ng-container matColumnDef="name">
             <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
             <mat-cell *matCellDef="let contact">
-                <p class="text-truncate font-weight-600">{{contact.name}} {{contact.lastName}}</p>
+                <p class="text-truncate font-weight-600">{{contact.name}} {{contact.firstSurname}} {{contact.secondSurname}}</p>
             </mat-cell>
         </ng-container>
     
@@ -74,9 +74,9 @@
             <mat-header-cell *matHeaderCellDef></mat-header-cell>
             <mat-cell *matCellDef="let contact">
                 <div fxFlex="row" fxLayoutAlign="end center">
-                    <button mat-icon-button (click)="$event.stopPropagation();toggleStar(contact.id)" aria-label="Toggle star">
-                        <mat-icon class="amber-fg" *ngIf="user.starred.includes(contact.id)">star</mat-icon>
-                        <mat-icon class="secondary-text" *ngIf="!user.starred.includes(contact.id)">star_border</mat-icon>
+                    <button mat-icon-button (click)="$event.stopPropagation();toggleStar(contact.id_contact)" aria-label="Toggle star">
+                        <mat-icon class="amber-fg" *ngIf="user.starredContacts.includes(contact.id_contact)">star</mat-icon>
+                        <mat-icon class="secondary-text" *ngIf="!user.starredContacts.includes(contact.id_contact)">star_border</mat-icon>
                     </button>
     
                     <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
@@ -87,7 +87,7 @@
                     <mat-menu #moreMenu="matMenu">
                         <button mat-menu-item aria-label="remove" (click)="deleteContact(contact)">
                             <mat-icon>delete</mat-icon>
-                            <span>Remove</span>
+                            <span>Eliminar</span>
                         </button>
                     </mat-menu>
                 </div>
@@ -99,7 +99,7 @@
         <mat-row *matRowDef="let contact; columns: displayedColumns;"
                  class="contact"
                  (click)="editContact(contact)"
-                 [ngClass]="{'accent-50':checkboxes[contact.id]}"
+                 [ngClass]="{'accent-50':checkboxes[contact.id_contact]}"
                  matRipple
                  [@animate]="{value:'*',params:{y:'100%'}}">
         </mat-row>

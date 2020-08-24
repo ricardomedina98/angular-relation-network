@@ -29,7 +29,7 @@ export class AuthenticationService {
         return new Promise((resolve, reject) => {
             this._httpClient.post<any>(`${environment.api_url}/auth/signin`, { username, password })
             .subscribe((token) => {
-                localStorage.setItem('currentUser', this.toToken(token));
+                localStorage.setItem('rpt_currentUser', this.toToken(token));
                 this.currentUserSubject.next(this.getToken());
                 resolve(token);
             }, reject);
@@ -38,7 +38,7 @@ export class AuthenticationService {
     }
 
     logout() {
-        localStorage.removeItem('currentUser');
+        localStorage.removeItem('rpt_currentUser');
         this.currentUserSubject.next(null);
     }
 
@@ -48,13 +48,13 @@ export class AuthenticationService {
 
     private getToken(): UserAuth {
         
-        if(!localStorage.getItem('currentUser')) {
+        if(!localStorage.getItem('rpt_currentUser')) {
             return null;
         }
 
         const jwtHeperService = new JwtHelperService();
 
-        const decodetoken = jwtHeperService.decodeToken(localStorage.getItem('currentUser').toString());
+        const decodetoken = jwtHeperService.decodeToken(localStorage.getItem('rpt_currentUser').toString());
 
         if(!decodetoken) {
             return null;
@@ -68,13 +68,13 @@ export class AuthenticationService {
             firstName: decodetoken.firstName || '',
             secondName: decodetoken.secondName || '',
             role: decodetoken.role,
-            token: localStorage.getItem('currentUser').toString()
+            token: localStorage.getItem('rpt_currentUser').toString()
         };
 
         return user;
     }
 
     isAuthenticated(): boolean {
-        return localStorage.getItem('currentUser') != null
+        return localStorage.getItem('rpt_currentUser') != null
     }
 }

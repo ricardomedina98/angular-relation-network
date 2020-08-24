@@ -7,95 +7,389 @@
             </button>
         </mat-toolbar-row>
 
-        <mat-toolbar-row class="toolbar-bottom py-16" fxLayout="column" fxLayoutAlign="center center">
-            <img [src]="contact.avatar" class="avatar contact-avatar huge m-0"
-                 [alt]="contact.name"/>
-            <div class="contact-name mt-8">{{contact.name}} {{contact.lastName}}</div>
+        <mat-toolbar-row class="toolbar-bottom py-8" fxLayout="column" fxLayoutAlign="start center">
+
+            <div fxLayout="column" fxLayoutAlign="start center">
+                <!-- <img [src]="contact.avatar" class="avatar contact-avatar huge m-0"
+                     [alt]="contact.name"/> -->
+                <div class="contact-name">{{contact.name}} {{contact.firstSurname}} {{contact.secondSurname}}</div>
+            </div>
         </mat-toolbar-row>
     </mat-toolbar>
 
     <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
 
-        <form [formGroup]="contactForm">
+        <form [formGroup]="contactForm" fxLayout="column" fxLayoutAlign="start" fxFlex="1 0 auto">
 
-            <div fxLayout="row" fxLayoutAlign="start start">
-                <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>Name</mat-label>  
+            <div fxLayout="row" fxLayoutAlign="space-between center">
+
+                <mat-form-field appearance="outline" fxFlex fxFlex.fxFlex.sm="100" class="pr-8">
+                    <mat-label>Nombre</mat-label>
+                    <input matInput formControlName="name" required>
                     <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
-                    <input name="name" formControlName="name" matInput required>
+                    <mat-error>Nombre es requerido!</mat-error>
                 </mat-form-field>
-            </div>
 
-            <div fxLayout="row" fxLayoutAlign="start start">
-                <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>Lastname</mat-label>
+                <mat-form-field appearance="outline" fxFlex class="px-8">
+                    <mat-label>Primer Apellido</mat-label>
+                    <input matInput formControlName="firstSurname" required>
                     <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
-                    <input name="lastName" formControlName="lastName" matInput>
+                    <mat-error>Primer Apellido es requerido!</mat-error>
                 </mat-form-field>
+
+                <mat-form-field appearance="outline" fxFlex class="px-8">
+                    <mat-label>Segundo Apellido</mat-label>
+                    <input matInput formControlName="secondSurname">
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" fxFlex="10" class="pl-8">
+                    <mat-label>Edad</mat-label>
+                    <input matInput formControlName="age" type="number">
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                </mat-form-field>
+
             </div>
 
-            <div fxLayout="row" fxLayoutAlign="start start">
-                <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>Nickname</mat-label>
-                    <mat-icon matSuffix class="secondary-text">star</mat-icon>
-                    <input name="nickname" formControlName="nickname" matInput>
+            <div fxLayout="row" fxLayoutAlign="space-between center">
+
+                <mat-form-field appearance="outline" fxFlex class="pr-8">
+                    <mat-label>Alias</mat-label>
+                    <input matInput formControlName="alias">
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
                 </mat-form-field>
+
+                <mat-form-field appearance="outline" fxFlex class="px-8">
+                    <mat-label>Telefono</mat-label>
+                    <input matInput formControlName="phone">
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" fxFlex class="px-8">
+                    <mat-label>Correo Electronico</mat-label>
+                    <input matInput formControlName="phone">
+                    <mat-icon matSuffix  class="secondary-text">account_circle</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" fxFlex="20" class="pl-8">
+                    <mat-label>¿Cuando lo conoció?</mat-label>
+                    <input matInput [matDatepicker]="dp" formControlName="timeMeet">
+                    <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                    <mat-datepicker #dp
+                                    startView="multi-year"
+                                    (yearSelected)="chosenYearHandler($event)"
+                                    (monthSelected)="chosenMonthHandler($event, dp)"
+                                    panelClass="example-month-picker">
+                    </mat-datepicker>
+                </mat-form-field>
+
+
             </div>
 
-            <div fxLayout="row" fxLayoutAlign="start start">
-                <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>Phone number</mat-label>
-                    <mat-icon matSuffix class="secondary-text">phone</mat-icon>
-                    <input formControlName="phone" matInput>
+            <div fxLayout="row" fxLayoutAlign="space-between center">
+
+                <mat-form-field appearance="outline" fxFlex class="pr-8">
+                    <mat-label>Parentesco</mat-label>
+                    <mat-select formControlName="title">
+                        <mat-option [value]="''">
+                            Parentesco
+                        </mat-option>
+                    </mat-select>
+                    <button *ngIf="contactForm.controls.title.value"
+                            matSuffix
+                            mat-icon-button
+                            type="button"
+                            aria-label="Clear"
+                            (click)="contactForm.controls.title.setValue(null); $event.stopPropagation()">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-icon matSuffix *ngIf="!contactForm.controls.title.value" class="secondary-text">outlined_flag</mat-icon>
                 </mat-form-field>
+
+                <mat-form-field appearance="outline" fxFlex="20" class="px-8">
+                    <mat-label>Calidad de Relacion</mat-label>
+                    <mat-select formControlName="title">
+                        <mat-option [value]="''">
+                            Calidad de Relacion
+                        </mat-option>
+                    </mat-select>
+                    <button *ngIf="contactForm.controls.title.value"
+                            matSuffix
+                            mat-icon-button
+                            type="button"
+                            aria-label="Clear"
+                            (click)="contactForm.controls.title.setValue(null); $event.stopPropagation()">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-icon matSuffix *ngIf="!contactForm.controls.title.value" class="secondary-text">outlined_flag</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" fxFlex="20" class="px-8">
+                    <mat-label>Titulo</mat-label>
+                    <mat-select formControlName="title">
+                        <mat-option *ngFor="let title of titles" [value]="title.id_title">
+                            {{title.name}}
+                        </mat-option>
+                    </mat-select>
+                    <button *ngIf="contactForm.controls.title.value"
+                            matSuffix
+                            mat-icon-button
+                            type="button"
+                            aria-label="Clear"
+                            (click)="contactForm.controls.title.setValue(null); $event.stopPropagation()">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-icon matSuffix *ngIf="!contactForm.controls.title.value" class="secondary-text">outlined_flag</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" fxFlex="20" class="px-8">
+                    <mat-label>Genero</mat-label>
+                    <mat-select formControlName="gender">
+                        <mat-option *ngFor="let gender of genders" [value]="gender.id_gender">
+                            {{gender.name}}
+                        </mat-option>
+                    </mat-select>
+                    <button *ngIf="contactForm.controls.gender.value"
+                            matSuffix
+                            mat-icon-button
+                            type="button"
+                            aria-label="Clear"
+                            (click)="contactForm.controls.gender.setValue(null); $event.stopPropagation()">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-icon matSuffix *ngIf="!contactForm.controls.gender.value" class="secondary-text">outlined_flag</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" fxFlex="20" class="pl-8">
+                    <mat-label>Estado Civil</mat-label>
+                    <mat-select formControlName="civilstatus">
+                        <mat-option *ngFor="let civilStatus of civilStatuses" [value]="civilStatus.id_civilstatus">
+                            {{civilStatus.name}}
+                        </mat-option>
+                    </mat-select>
+                    <button *ngIf="contactForm.controls.civilstatus.value"
+                            matSuffix
+                            mat-icon-button
+                            type="button"
+                            aria-label="Clear"
+                            (click)="contactForm.controls.civilstatus.setValue(null); $event.stopPropagation()">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-icon matSuffix *ngIf="!contactForm.controls.civilstatus.value" class="secondary-text">outlined_flag</mat-icon>
+                </mat-form-field>
+
             </div>
 
-            <div fxLayout="row" fxLayoutAlign="start start">
-                <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>Email</mat-label>
-                    <mat-icon matSuffix class="secondary-text">email</mat-icon>
-                    <input name="email" formControlName="email" matInput type="email">
+            <div fxLayout="row" fxLayoutAlign="space-between center">
+
+                <mat-form-field appearance="outline" fxFlex="33" class="pr-8">
+                    <mat-label>Profesion</mat-label>
+                    <mat-select formControlName="profession">
+                        <mat-option *ngFor="let profession of professions" [value]="profession.id_profession">
+                            {{profession.name}}
+                        </mat-option>
+                    </mat-select>
+                    <button *ngIf="contactForm.controls.profession.value"
+                            matSuffix
+                            mat-icon-button
+                            type="button"
+                            aria-label="Clear"
+                            (click)="contactForm.controls.profession.setValue(null); $event.stopPropagation()">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-icon matSuffix *ngIf="!contactForm.controls.profession.value" class="secondary-text">outlined_flag</mat-icon>
                 </mat-form-field>
+
+                <mat-form-field appearance="outline" fxFlex="33" class="px-8">
+                    <mat-label>Ocupación</mat-label>
+                    <mat-select formControlName="ocupation" >
+                        <mat-option *ngFor="let ocupation of ocupations" [value]="ocupation.id_ocupation">
+                            {{ocupation.name}}
+                        </mat-option>
+                    </mat-select>
+                    <button *ngIf="contactForm.controls.ocupation.value"
+                            matSuffix
+                            mat-icon-button
+                            type="button"
+                            aria-label="Clear"
+                            (click)="contactForm.controls.ocupation.setValue(null); $event.stopPropagation()">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-icon *ngIf="!contactForm.controls.ocupation.value" matSuffix class="secondary-text">outlined_flag</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" fxFlex="33" class="px-8">
+                    <mat-label>Clasificacíon</mat-label>
+                    <mat-select formControlName="clasification" >
+                        <mat-option *ngFor="let clasification of clasifications" [value]="clasification.id_clasification">
+                            {{clasification.name}}
+                        </mat-option>
+                    </mat-select>
+                    <button *ngIf="contactForm.controls.clasification.value"
+                            matSuffix
+                            mat-icon-button
+                            type="button"
+                            aria-label="Clear"
+                            (click)="contactForm.controls.clasification.setValue(null); $event.stopPropagation()">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-icon *ngIf="!contactForm.controls.clasification.value" matSuffix class="secondary-text">outlined_flag</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" fxFlex="33" class="p-8">
+                    <mat-label>Pasatiempo</mat-label>
+                    <mat-select formControlName="hobbie" >
+                        <mat-option *ngFor="let hobbie of hobbies" [value]="hobbie.id_hobbie">
+                            {{hobbie.name}}
+                        </mat-option>
+                    </mat-select>
+                    <button *ngIf="contactForm.controls.hobbie.value"
+                            matSuffix
+                            mat-icon-button
+                            type="button"
+                            aria-label="Clear"
+                            (click)="contactForm.controls.hobbie.setValue(null); $event.stopPropagation()">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-icon *ngIf="!contactForm.controls.hobbie.value" matSuffix class="secondary-text">outlined_flag</mat-icon>
+                </mat-form-field>
+
             </div>
 
-            <div fxLayout="row" fxLayoutAlign="start start">
-                <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>Company</mat-label>
-                    <mat-icon matSuffix class="secondary-text">domain</mat-icon>
-                    <input name="company" formControlName="company" matInput>
+            <div fxLayout="row" fxLayoutAlign="space-between center">
+
+                <mat-form-field appearance="outline" fxFlex="24" class="pr-8">
+                    <mat-label>País</mat-label>
+                    <mat-select formControlName="country" (ngModelChange)="onChangeCountries($event)">
+                        <mat-option *ngFor="let country of countries"  [value]="country.value">
+                            {{country.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                    <button *ngIf="contactForm.controls.country.value"
+                            matSuffix
+                            mat-icon-button
+                            type="button"
+                            aria-label="Clear"
+                            (click)="contactForm.controls.country.setValue(null); $event.stopPropagation()">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-icon *ngIf="!contactForm.controls.country.value" matSuffix class="secondary-text">outlined_flag</mat-icon>
                 </mat-form-field>
+
+                <mat-form-field appearance="outline" fxFlex="24" class="px-8">
+                    <mat-label>Estado</mat-label>
+                    <mat-select formControlName="state" (ngModelChange)="onChangeCities($event)">
+                        <mat-option *ngFor="let state of states" [value]="state.value">
+                            {{ state.viewValue }}
+                        </mat-option>
+                    </mat-select>
+                    <button *ngIf="contactForm.controls.state.value"
+                            matSuffix
+                            mat-icon-button
+                            type="button"
+                            aria-label="Clear"
+                            (click)="contactForm.controls.state.setValue(null); $event.stopPropagation()">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-icon *ngIf="!contactForm.controls.state.value" matSuffix class="secondary-text">outlined_flag</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" fxFlex="24" class="px-8">
+                    <mat-label>Ciudad</mat-label>
+                    <mat-select formControlName="city">
+                        <mat-option *ngFor="let city of cities" [value]="city.value">
+                            {{ city.viewValue }}
+                        </mat-option>
+                    </mat-select>
+                    <button *ngIf="contactForm.controls.city.value"
+                            matSuffix
+                            mat-icon-button
+                            type="button"
+                            aria-label="Clear"
+                            (click)="contactForm.controls.city.setValue(null); $event.stopPropagation()">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-icon *ngIf="!contactForm.controls.city.value" matSuffix class="secondary-text">outlined_flag</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" fxFlex="24" class="pl-8">
+                    <mat-label>Código Postal</mat-label>
+                    <input matInput #postalCode formControlName="postalCode" maxlength="5">
+                    <mat-icon matSuffix class="secondary-text">markunread_mailbox</mat-icon>
+                    <mat-hint align="end">{{postalCode.value.length}} / 5</mat-hint>
+                </mat-form-field>
+
             </div>
 
-            <div fxLayout="row" fxLayoutAlign="start start">
-                <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>Job title</mat-label>
-                    <mat-icon matSuffix class="secondary-text">work</mat-icon>
-                    <input name="jobTitle" formControlName="jobTitle" matInput>
-                </mat-form-field>
-            </div>
+            <div fxLayout="row" fxLayoutAlign="space-between center">
 
-            <div fxLayout="row" fxLayoutAlign="start start">
-                <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>Birthday</mat-label>
-                    <input matInput [matDatepicker]="birthdayDatePicker" name="birthday" formControlName="birthday">
-                    <mat-datepicker-toggle matSuffix [for]="birthdayDatePicker"></mat-datepicker-toggle>
-                    <mat-datepicker #birthdayDatePicker></mat-datepicker>
-                </mat-form-field>
-            </div>
+                <div fxLayout="column" fxFlex="50" fxLayoutAlign="start stretch">
 
-            <div fxLayout="row" fxLayoutAlign="start start">
-                <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>Address</mat-label>
-                    <mat-icon matSuffix class="secondary-text">home</mat-icon>
-                    <input name="address" formControlName="address" matInput>
-                </mat-form-field>
-            </div>
+                    <div fxLayout="row" fxLayoutAlign="center center">
+                        <div>
+                            <mat-label>¿Lo has referido?</mat-label>
+                        </div>
+                        <div class="pl-8">
+                            <mat-slide-toggle name="have_you_referred" formControlName="have_you_referred" (ngModelChange)="onChangeYouHaveRegerred($event)"></mat-slide-toggle>
+                        </div>
+                    </div>
+                    <div fxLayout="row" class="pt-8" fxLayoutAlign="center center">
+                        <mat-form-field appearance="outline" fxFlex="80">
+                            <mat-label>¿Con quien?</mat-label>
+                            <mat-select formControlName="you_have_referred_contact">
+                                <mat-option *ngFor="let contact of contacts" [value]="contact.id_contact">
+                                    {{contact.name}} {{contact.firstSurname}} {{contact.secondSurname}}
+                                </mat-option>
+                            </mat-select>
+                            <button *ngIf="contactForm.controls.you_have_referred_contact.value"
+                                    matSuffix
+                                    mat-icon-button
+                                    type="button"
+                                    aria-label="Clear"
+                                    (click)="contactForm.controls.you_have_referred_contact.setValue(null); $event.stopPropagation()">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                            <mat-icon *ngIf="!contactForm.controls.you_have_referred_contact.value" matSuffix class="secondary-text">outlined_flag</mat-icon>
+                        </mat-form-field>
+                    </div>
 
-            <div fxLayout="row" class="textarea-wrapper" fxLayoutAlign="start start">
-                <mat-form-field appearance="outline" fxFlex>
-                    <mat-label>Notes</mat-label>
-                    <textarea name="notes" formControlName="notes" matInput type="text" max-rows="4"></textarea>
-                </mat-form-field>
+                    
+                </div>
+
+                <div fxLayout="column" fxFlex="50" fxLayoutAlign="start stretch">
+
+                    <div fxLayout="row" fxLayoutAlign="center center">
+                        <div>
+                            <mat-label>¿Te ha referido?</mat-label>
+                        </div>
+                        <div class="pl-8">
+                            <mat-slide-toggle name="has_referred_you" formControlName="has_referred_you" (ngModelChange)="onChangeHasReferredYouContact($event)"></mat-slide-toggle>
+                        </div>
+                    </div>
+                    <div fxLayout="row" class="pt-8" fxLayoutAlign="center center">
+                        <mat-form-field appearance="outline" fxFlex="80">
+                            <mat-label>¿Referido por?</mat-label>
+                            <mat-select formControlName="has_referred_you_contact">
+                                <mat-option *ngFor="let contact of contacts" [value]="contact.id_contact">
+                                    {{contact.name}} {{contact.firstSurname}} {{contact.secondSurname}}
+                                </mat-option>
+                            </mat-select>
+                            <button *ngIf="contactForm.controls.has_referred_you_contact.value"
+                                    matSuffix
+                                    mat-icon-button
+                                    type="button"
+                                    aria-label="Clear"
+                                    (click)="contactForm.controls.has_referred_you_contact.setValue(null); $event.stopPropagation()">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                            <mat-icon *ngIf="!contactForm.controls.has_referred_you_contact.value" matSuffix class="secondary-text">outlined_flag</mat-icon>
+                        </mat-form-field>
+                    </div>
+
+                    
+                </div>
+
+
             </div>
 
         </form>
@@ -116,7 +410,7 @@
         <button *ngIf="action !== 'edit'"
                 mat-button
                 class="save-button"
-                (click)="matDialogRef.close(contactForm)"
+                (click)="onSubmitAdd()"
                 [disabled]="contactForm.invalid"
                 aria-label="SAVE">
             ADD

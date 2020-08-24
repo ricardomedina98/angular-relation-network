@@ -24,15 +24,10 @@ create TABLE contact(
 	id_contact int PRIMARY KEY,
   id_user int NULL,
   name varchar(255) NOT NULL,
-  first_name varchar(255) NOT NULL,
+  first_ varchar(255) NOT NULL,
   second_name varchar(255) NULL,
   phone varchar(255) NULL,
   age int NULL,
-  id_details int NOT NULL
-);
-
-CREATE TABLE contact_details(
-  id_details int PRIMARY KEY,
   id_civil_status int NULL,
   id_profession int NULL,
   id_occupation int NULL,

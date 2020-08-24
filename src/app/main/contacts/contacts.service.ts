@@ -3,9 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
-import { FuseUtils } from '@fuse/utils';
-
 import { Contact } from 'app/main/contacts/contact.model';
+import { environment } from 'environments/environment';
 
 @Injectable()
 export class ContactsService implements Resolve<any>
@@ -22,12 +21,16 @@ export class ContactsService implements Resolve<any>
 
     searchText: string;
     filterBy: string;
+    
+    countries: any[];
+    professions: any[];
+    ocupations: any[];
+    clasifications: any[];
+    hobbies: any[];
+    titles: any[];
+    genders: any[];
+    civilStatuses: any[];
 
-    /**
-     * Constructor
-     *
-     * @param {HttpClient} _httpClient
-     */
     constructor(
         private _httpClient: HttpClient
     )
@@ -40,26 +43,28 @@ export class ContactsService implements Resolve<any>
         this.onFilterChanged = new Subject();
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
 
-    /**
-     * Resolver
-     *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<any> | Promise<any> | any}
-     */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any
     {
         return new Promise((resolve, reject) => {
 
             Promise.all([
                 this.getContacts(),
-                this.getUserData()
+                this.getUserData(),
+                this.getCountries(),
+                this.getProfessions(),
+                this.getOcupations(),
+                this.getClasifications(),
+                this.getHobbies(),
+                this.getTitles(),
+                this.getGenders(),
+                this.getCivilStatuses()
             ]).then(
                 ([files]) => {
+
+                    this.onFilterChanged.subscribe(filter => {
+                        this.filterBy = filter;
+                    });
 
                     resolve();
 
@@ -77,29 +82,22 @@ export class ContactsService implements Resolve<any>
     getContacts(): Promise<any>
     {
         return new Promise((resolve, reject) => {
-                this._httpClient.get('api/contacts-contacts')
+                this._httpClient.get(`${environment.api_url}/contacts/user`)
                     .subscribe((response: any) => {
-
                         this.contacts = response;
 
                         if ( this.filterBy === 'starred' )
                         {
                             this.contacts = this.contacts.filter(_contact => {
-                                return this.user.starred.includes(_contact.id);
+                                return this.user.starredContacts.includes(_contact.id_contact);
                             });
                         }
-
-                        if ( this.filterBy === 'frequent' )
-                        {
-                            this.contacts = this.contacts.filter(_contact => {
-                                return this.user.frequentContacts.includes(_contact.id);
-                            });
-                        }
-
+                        
                         this.contacts = this.contacts.map(contact => {
                             return new Contact(contact);
                         });
-
+                        
+                        console.log(this.contacts);
                         this.onContactsChanged.next(this.contacts);
                         resolve(this.contacts);
                     }, reject);
@@ -112,17 +110,16 @@ export class ContactsService implements Resolve<any>
      *
      * @returns {Promise<any>}
      */
-    getUserData(): Promise<any>
-    {
+    getUserData(): Promise<any> {
         return new Promise((resolve, reject) => {
-                this._httpClient.get('api/contacts-user/5725a6802d10e277a0f35724')
-                    .subscribe((response: any) => {
-                        this.user = response;
-                        this.onUserDataChanged.next(this.user);
-                        resolve(this.user);
-                    }, reject);
-            }
-        );
+            this._httpClient.get(`${environment.api_url}/users/contacts/starred`)
+            .subscribe((response: any) => {
+                this.user = response;
+                console.log(this.user);
+                this.onUserDataChanged.next(this.user);
+                resolve(response);
+            }, reject);
+        });
     }
 
     /**
@@ -186,7 +183,7 @@ export class ContactsService implements Resolve<any>
         {
             this.selectedContacts = [];
             this.contacts.map(contact => {
-                this.selectedContacts.push(contact.id);
+                this.selectedContacts.push(contact.id_contact);
             });
         }
 
@@ -204,7 +201,7 @@ export class ContactsService implements Resolve<any>
     {
         return new Promise((resolve, reject) => {
 
-            this._httpClient.post('api/contacts-contacts/' + contact.id, {...contact})
+            this._httpClient.put(`${environment.api_url}/users/${contact.id_contact}`, {...contact})
                 .subscribe(response => {
                     this.getContacts();
                     resolve(response);
@@ -212,16 +209,15 @@ export class ContactsService implements Resolve<any>
         });
     }
 
-    /**
-     * Update user data
-     *
-     * @param userData
-     * @returns {Promise<any>}
-     */
-    updateUserData(userData): Promise<any>
+
+
+
+    
+    toggleStar(id_contact): Promise<any>
     {
         return new Promise((resolve, reject) => {
-            this._httpClient.post('api/contacts-user/' + this.user.id, {...userData})
+
+            this._httpClient.put(`${environment.api_url}/contacts/starred/${id_contact}`, {})
                 .subscribe(response => {
                     this.getUserData();
                     this.getContacts();
@@ -229,6 +225,20 @@ export class ContactsService implements Resolve<any>
                 });
         });
     }
+
+    unToggleStar(id_contact): Promise<any>
+    {
+        return new Promise((resolve, reject) => {
+
+            this._httpClient.delete(`${environment.api_url}/contacts/starred/${id_contact}`)
+                .subscribe(response => {
+                    this.getUserData();
+                    this.getContacts();
+                    resolve(response);
+                });
+        });
+    }
+
 
     /**
      * Deselect contacts
@@ -261,13 +271,130 @@ export class ContactsService implements Resolve<any>
         for ( const contactId of this.selectedContacts )
         {
             const contact = this.contacts.find(_contact => {
-                return _contact.id === contactId;
+                return _contact.id_contact === contactId;
             });
             const contactIndex = this.contacts.indexOf(contact);
             this.contacts.splice(contactIndex, 1);
         }
         this.onContactsChanged.next(this.contacts);
         this.deselectContacts();
+    }
+
+    createContact(contact) {
+        return new Promise((resolve, reject) => {
+            this._httpClient.post(`${environment.api_url}/contacts`, contact)
+            .subscribe((response) => {
+                this.getContacts();
+                resolve(response);
+            });
+        })
+    }
+
+    getCurrentLocation(lat: string, lng: string) {
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(`https://geocode.xyz/${lat},${lng}?json=1`)
+            .subscribe((response: any) => {
+                resolve(response);
+            }, reject);
+        });
+    }
+
+    getCountries() {
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(`${environment.api_url}/world/countries`)
+            .subscribe((response: any[]) => {
+                this.countries = response;
+                resolve(response);
+            }, reject);
+        });
+    }
+
+    getStatesByCountry(countryCode: string) {
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(`${environment.api_url}/world/countries/${countryCode}/states`)
+            .subscribe((response: any[]) => {
+                resolve(response);
+            }, reject);
+        });
+    }
+
+    getCitiesByState(stateCode: string) {
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(`${environment.api_url}/world/countries/states/${stateCode}/cities`)
+            .subscribe((response: any[]) => {
+                resolve(response);
+            }, reject);
+        });
+    }
+
+    getProfessions() {
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(`${environment.api_url}/contacts/profession`)
+            .subscribe((response: any[]) => {
+                this.professions = response;
+                resolve(response);
+            }, reject);
+        });
+    }
+
+    getOcupations() {
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(`${environment.api_url}/contacts/ocupation`)
+            .subscribe((response: any[]) => {
+                this.ocupations = response;
+                resolve(response);
+            }, reject);
+        });
+    }
+
+    getClasifications() {
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(`${environment.api_url}/contacts/clasification`)
+            .subscribe((response: any[]) => {
+                this.clasifications = response;
+                resolve(response);
+            }, reject);
+        });
+    }
+
+    getHobbies() {
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(`${environment.api_url}/contacts/hobbie`)
+            .subscribe((response: any[]) => {
+                this.hobbies = response;
+                resolve(response);
+            }, reject);
+        });
+    }
+
+    getTitles() {
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(`${environment.api_url}/contacts/title`)
+            .subscribe((response: any[]) => {
+                this.titles = response;
+                resolve(response);
+            }, reject);
+        });
+    }
+
+    getGenders() {
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(`${environment.api_url}/contacts/gender`)
+            .subscribe((response: any[]) => {
+                this.genders = response;
+                resolve(response);
+            }, reject);
+        });
+    }
+
+    getCivilStatuses() {
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(`${environment.api_url}/contacts/civil-status`)
+            .subscribe((response: any[]) => {
+                this.civilStatuses = response;
+                resolve(response);
+            }, reject);
+        });
     }
 
 }

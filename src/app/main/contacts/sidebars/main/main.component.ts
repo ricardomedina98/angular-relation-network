@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { ContactsService } from 'app/main/contacts/contacts.service';
+import { User } from 'app/main/users/user.model';
 
 @Component({
     selector   : 'contacts-main-sidebar',
@@ -11,7 +12,7 @@ import { ContactsService } from 'app/main/contacts/contacts.service';
 })
 export class ContactsMainSidebarComponent implements OnInit, OnDestroy
 {
-    user: any;
+    user: User;
     filterBy: string;
 
     // Private

@@ -7,7 +7,7 @@
     }
 
     @include media-breakpoint('gt-xs') {
-        width: 600px;
+        width: 80%;
     }
 
     .mat-dialog-container {
@@ -24,7 +24,7 @@
     }
 
     .dialog-content-wrapper {
-        max-height: 85vh;
+        max-height: 90vh;
         display: flex;
         flex-direction: column;
     }
