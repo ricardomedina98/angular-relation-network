@@ -71,6 +71,8 @@ export class ContactsContactFormDialogComponent implements OnInit {
     titles: any[];
     genders: any[];
     civilStatuses: any[];
+    typesRelationships: any[];
+    qualitiesRelationships: any[];
     
     constructor(
         public matDialogRef: MatDialogRef<ContactsContactFormDialogComponent>,
@@ -108,31 +110,33 @@ export class ContactsContactFormDialogComponent implements OnInit {
         this.titles = this._contactService.titles;
         this.genders = this._contactService.genders;
         this.civilStatuses = this._contactService.civilStatuses;
+        this.typesRelationships = this._contactService.typesRelationships;
+        this.qualitiesRelationships = this._contactService.qualitiesRelationships;
 
-        this.contactForm = this.createContactForm();
-
-
-        //Set default control values
-        this.contactForm.get('state').disable();
-        this.contactForm.get('city').disable();
-
-        if(!this.contact.you_have_referred_contact.id_contact) {
-            this.contactForm.get('you_have_referred_contact').disable();
-        }
         
-        if(!this.contact.has_referred_you_contact.id_contact) {
-            this.contactForm.get('has_referred_you_contact').disable();
-        }
-
+        //Set default control values
+        this.contactForm = this.createContactForm();
 
     }
 
     ngOnInit(): void {
 
+        if(!this.contact.you_have_referred_contact) {
+            this.contactForm.get('you_have_referred_contact').disable();
+        }
 
-        // if (navigator.geolocation) {
-        //     navigator.geolocation.getCurrentPosition(this.displayLocationInfo.bind(this));
-        // }
+        if(!this.contact.has_referred_you_contact) {
+            this.contactForm.get('has_referred_you_contact').disable();
+        }
+        
+        if(this.action === 'edit') {
+            this.onChangeCountries(this.contact.address.country.iso2);
+            this.onChangeStates(this.contact.address.state.iso2);
+        } else {
+            this.contactForm.get('state').disable();
+            this.contactForm.get('city').disable();
+        }
+        
     }
 
     displayLocationInfo(position) {
@@ -164,12 +168,18 @@ export class ContactsContactFormDialogComponent implements OnInit {
                         value: state.iso2
                     }
                 });
-                this.contactForm.get('state').setValue(null);
+
+                if(this.action === 'edit') {
+                    this.contactForm.get('state').setValue(this.contact.address.state.iso2);
+                } else {
+                    this.contactForm.get('state').setValue(null);
+                }
+                
                 (this.states.length > 0) ? this.contactForm.get('state').enable() : this.contactForm.get('state').disable();
             });
     }
 
-    onChangeCities(stateCode: string) {
+    onChangeStates(stateCode: string) {
         if (!stateCode) {
             this.cities = [];
             this.contactForm.get('city').setValue(null);
@@ -185,7 +195,13 @@ export class ContactsContactFormDialogComponent implements OnInit {
                         value: city.id
                     }
                 });
-                this.contactForm.get('city').setValue(null);
+
+                if(this.action === 'edit') {
+                    this.contactForm.get('city').setValue(this.contact.address.city.id);
+                } else {
+                    this.contactForm.get('city').setValue(null);
+                }
+                
                 (this.states.length > 0) ? this.contactForm.get('city').enable() : this.contactForm.get('city').disable();
             });
 
@@ -201,6 +217,7 @@ export class ContactsContactFormDialogComponent implements OnInit {
             phone: [this.contact.phone],
             age: [this.contact.age],
             alias: [this.contact.alias],
+            email: [this.contact.email],
             timeMeet: [this.contact.timeMeet || moment()],
             have_you_referred: [this.contact.have_you_referred || false],
             you_have_referred_contact: [this.contact.you_have_referred_contact.id_contact],
@@ -213,6 +230,8 @@ export class ContactsContactFormDialogComponent implements OnInit {
             ocupation: [this.contact.ocupation.id_ocupation],
             clasification: [this.contact.clasification.id_clasification],
             hobbie: [this.contact.hobbie.id_hobbie],
+            type_relationship: [this.contact.type_relationship.id_type_relationship],
+            quality_relationship: [this.contact.quality_relationship.id_quality_relationship],
             country: [this.contact.address.country.iso2],
             state: [this.contact.address.state.iso2],
             city: [this.contact.address.city.id],

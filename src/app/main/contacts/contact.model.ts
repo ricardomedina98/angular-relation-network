@@ -8,6 +8,7 @@ export class Contact
     phone: string;
     age: number;
     alias: string;
+    email:string;
     timeMeet: Date;
     have_you_referred: boolean;
     you_have_referred_contact: any;
@@ -20,6 +21,8 @@ export class Contact
     ocupation: any;
     clasification: any;
     hobbie: any;
+    type_relationship: any;
+    quality_relationship: any;
     address: {
         country: {
             id: number;
@@ -38,7 +41,6 @@ export class Contact
         },
         postalCode: number;
     };
-    status: string;
     createdAt: Date;
     updatedAt: Date;
     
@@ -56,6 +58,7 @@ export class Contact
             this.phone = contact.phone || "";
             this.age = contact.age || "";
             this.alias = contact.alias || "";
+            this.email = contact.email || "";
             this.timeMeet = contact.timeMeet || "";
             this.have_you_referred = contact.have_you_referred || "";
             this.you_have_referred_contact = contact.you_have_referred_contact || "";
@@ -68,7 +71,8 @@ export class Contact
             this.ocupation = contact.ocupation || "";
             this.clasification = contact.clasification || "";
             this.hobbie = contact.hobbie || "";
-            
+            this.type_relationship = contact.type_relationship || "";
+            this.quality_relationship = contact.quality_relationship || "";
             //Address
             this.address  = {
                 country: {
@@ -89,7 +93,6 @@ export class Contact
                 }
             };
 
-            this.status = contact.status || "";
             this.createdAt = contact.createdAt || "";
             this.updatedAt = contact.updatedAt || "";
         }

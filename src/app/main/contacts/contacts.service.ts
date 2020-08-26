@@ -30,6 +30,8 @@ export class ContactsService implements Resolve<any>
     titles: any[];
     genders: any[];
     civilStatuses: any[];
+    typesRelationships: any[];
+    qualitiesRelationships: any[];
 
     constructor(
         private _httpClient: HttpClient
@@ -58,7 +60,9 @@ export class ContactsService implements Resolve<any>
                 this.getHobbies(),
                 this.getTitles(),
                 this.getGenders(),
-                this.getCivilStatuses()
+                this.getCivilStatuses(),
+                this.getTypesRelationships(),
+                this.getQualityRelationships()
             ]).then(
                 ([files]) => {
 
@@ -96,8 +100,7 @@ export class ContactsService implements Resolve<any>
                         this.contacts = this.contacts.map(contact => {
                             return new Contact(contact);
                         });
-                        
-                        console.log(this.contacts);
+
                         this.onContactsChanged.next(this.contacts);
                         resolve(this.contacts);
                     }, reject);
@@ -392,6 +395,26 @@ export class ContactsService implements Resolve<any>
             this._httpClient.get(`${environment.api_url}/contacts/civil-status`)
             .subscribe((response: any[]) => {
                 this.civilStatuses = response;
+                resolve(response);
+            }, reject);
+        });
+    }
+
+    getTypesRelationships() {
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(`${environment.api_url}/contacts/type-relationship`)
+            .subscribe((response: any[]) => {
+                this.typesRelationships = response;
+                resolve(response);
+            }, reject);
+        });
+    }
+
+    getQualityRelationships() {
+        return new Promise((resolve, reject) => {
+            this._httpClient.get(`${environment.api_url}/contacts/quality-relationship`)
+            .subscribe((response: any[]) => {
+                this.qualitiesRelationships = response;
                 resolve(response);
             }, reject);
         });

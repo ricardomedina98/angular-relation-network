@@ -67,7 +67,7 @@
 
                 <mat-form-field appearance="outline" fxFlex class="px-8">
                     <mat-label>Correo Electronico</mat-label>
-                    <input matInput formControlName="phone">
+                    <input matInput formControlName="email">
                     <mat-icon matSuffix  class="secondary-text">account_circle</mat-icon>
                 </mat-form-field>
 
@@ -89,39 +89,39 @@
             <div fxLayout="row" fxLayoutAlign="space-between center">
 
                 <mat-form-field appearance="outline" fxFlex class="pr-8">
-                    <mat-label>Parentesco</mat-label>
-                    <mat-select formControlName="title">
-                        <mat-option [value]="''">
-                            Parentesco
+                    <mat-label>Tipo de Relación</mat-label>
+                    <mat-select formControlName="type_relationship">
+                        <mat-option *ngFor="let typeRelationship of typesRelationships" [value]="typeRelationship.id_type_relationship">
+                            {{typeRelationship.name}}
                         </mat-option>
                     </mat-select>
-                    <button *ngIf="contactForm.controls.title.value"
+                    <button *ngIf="contactForm.controls.type_relationship.value"
                             matSuffix
                             mat-icon-button
                             type="button"
                             aria-label="Clear"
-                            (click)="contactForm.controls.title.setValue(null); $event.stopPropagation()">
+                            (click)="contactForm.controls.type_relationship.setValue(null); $event.stopPropagation()">
                         <mat-icon>close</mat-icon>
                     </button>
-                    <mat-icon matSuffix *ngIf="!contactForm.controls.title.value" class="secondary-text">outlined_flag</mat-icon>
+                    <mat-icon matSuffix *ngIf="!contactForm.controls.type_relationship.value" class="secondary-text">outlined_flag</mat-icon>
                 </mat-form-field>
 
                 <mat-form-field appearance="outline" fxFlex="20" class="px-8">
-                    <mat-label>Calidad de Relacion</mat-label>
-                    <mat-select formControlName="title">
-                        <mat-option [value]="''">
-                            Calidad de Relacion
+                    <mat-label>Calidad de Relación</mat-label>
+                    <mat-select formControlName="quality_relationship">
+                        <mat-option *ngFor="let qualityRelationship of qualitiesRelationships" [value]="qualityRelationship.id_quality_relationship">
+                            {{qualityRelationship.name}}
                         </mat-option>
                     </mat-select>
-                    <button *ngIf="contactForm.controls.title.value"
+                    <button *ngIf="contactForm.controls.quality_relationship.value"
                             matSuffix
                             mat-icon-button
                             type="button"
                             aria-label="Clear"
-                            (click)="contactForm.controls.title.setValue(null); $event.stopPropagation()">
+                            (click)="contactForm.controls.quality_relationship.setValue(null); $event.stopPropagation()">
                         <mat-icon>close</mat-icon>
                     </button>
-                    <mat-icon matSuffix *ngIf="!contactForm.controls.title.value" class="secondary-text">outlined_flag</mat-icon>
+                    <mat-icon matSuffix *ngIf="!contactForm.controls.quality_relationship.value" class="secondary-text">outlined_flag</mat-icon>
                 </mat-form-field>
 
                 <mat-form-field appearance="outline" fxFlex="20" class="px-8">
@@ -278,7 +278,7 @@
 
                 <mat-form-field appearance="outline" fxFlex="24" class="px-8">
                     <mat-label>Estado</mat-label>
-                    <mat-select formControlName="state" (ngModelChange)="onChangeCities($event)">
+                    <mat-select formControlName="state" (ngModelChange)="onChangeStates($event)">
                         <mat-option *ngFor="let state of states" [value]="state.value">
                             {{ state.viewValue }}
                         </mat-option>
