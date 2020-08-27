@@ -1,3 +1,5 @@
+import * as moment from 'moment';
+
 export class Contact
 {
     id_contact: string;
@@ -9,7 +11,7 @@ export class Contact
     age: number;
     alias: string;
     email:string;
-    timeMeet: Date;
+    timeMeet: moment.Moment;
     have_you_referred: boolean;
     you_have_referred_contact: any;
     has_referred_you: boolean;
@@ -59,7 +61,7 @@ export class Contact
             this.age = contact.age || "";
             this.alias = contact.alias || "";
             this.email = contact.email || "";
-            this.timeMeet = contact.timeMeet || "";
+            this.timeMeet = moment(contact.timeMeet) || moment();
             this.have_you_referred = contact.have_you_referred || "";
             this.you_have_referred_contact = contact.you_have_referred_contact || "";
             this.has_referred_you = contact.has_referred_you || "";

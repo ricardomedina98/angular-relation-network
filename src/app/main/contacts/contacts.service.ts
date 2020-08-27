@@ -186,10 +186,9 @@ export class ContactsService implements Resolve<any>
         {
             this.selectedContacts = [];
             this.contacts.map(contact => {
-                this.selectedContacts.push(contact.id_contact);
+                this.selectedContacts.push(contact.id_contact.toString());
             });
         }
-
         // Trigger the next event
         this.onSelectedContactsChanged.next(this.selectedContacts);
     }
@@ -204,7 +203,7 @@ export class ContactsService implements Resolve<any>
     {
         return new Promise((resolve, reject) => {
 
-            this._httpClient.put(`${environment.api_url}/users/${contact.id_contact}`, {...contact})
+            this._httpClient.put(`${environment.api_url}/contacts/${contact.id_contact}`, {...contact})
                 .subscribe(response => {
                     this.getContacts();
                     resolve(response);

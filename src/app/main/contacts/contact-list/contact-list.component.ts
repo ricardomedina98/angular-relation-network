@@ -80,7 +80,7 @@ export class ContactsContactListComponent implements OnInit, OnDestroy
 
                 this.checkboxes = {};
                 contacts.map(contact => {
-                    this.checkboxes[contact.id] = false;
+                    this.checkboxes[contact.id_contact] = false;
                 });
             });
 
@@ -116,7 +116,6 @@ export class ContactsContactListComponent implements OnInit, OnDestroy
         this._contactsService.onSearchTextChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((searchText) => {
-                console.log(searchText);
                 this.dataSource.filterSearchText = searchText;
             });
     }
@@ -206,9 +205,9 @@ export class ContactsContactListComponent implements OnInit, OnDestroy
      *
      * @param contactId
      */
-    onSelectedChange(contactId): void
+    onSelectedChange(contactId: string): void
     {
-        this._contactsService.toggleSelectedContact(contactId);
+        this._contactsService.toggleSelectedContact(contactId.toString());
     }
 
     /**

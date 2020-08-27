@@ -5,9 +5,8 @@ register {
     #register {
         width: 100%;
 
-        background: url('/assets/images/backgrounds/dark-material-bg.png') repeat;
-
-        background-size: initial;
+        background: url('/assets/images/backgrounds/dark-material-bg.png');
+        background-repeat: repeat;
 
         #register-form-wrapper {
             flex: 1 0 auto;

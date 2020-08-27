@@ -24,7 +24,6 @@ import { ContactsContactFormDialogComponent } from 'app/main/contacts/contact-fo
 import { MatSortModule } from '@angular/material/sort';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDividerModule } from '@angular/material/divider';
-import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MomentDateModule } from '@angular/material-moment-adapter';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { AuthenticationService } from 'app/services/authentification.service';
@@ -72,9 +71,7 @@ const routes: Routes = [
 
         FuseSharedModule,
         FuseConfirmDialogModule,
-        FuseSidebarModule,
-
-        NgxMatSelectSearchModule
+        FuseSidebarModule
     ],
     providers      : [
         ContactsService

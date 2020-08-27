@@ -97,16 +97,6 @@ export class ContactsComponent implements OnInit, OnDestroy
                 action: 'new'
             }
         });
-
-        this.dialogRef.afterClosed()
-            .subscribe((response: FormGroup) => {
-                if ( !response )
-                {
-                    return;
-                }
-
-                this._contactsService.updateContact(response.getRawValue());
-            });
     }
 
     /**

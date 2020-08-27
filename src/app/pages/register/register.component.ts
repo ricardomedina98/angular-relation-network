@@ -107,7 +107,7 @@ export class RegisterComponent implements OnInit, OnDestroy
 
     get f() { return this.registerForm.controls; }
 
-    onSubmit() {
+    async onSubmit() {
 
         this.submitted = true;
 
@@ -118,16 +118,15 @@ export class RegisterComponent implements OnInit, OnDestroy
         this.loading = true;
 
         const data: RegisterUser = {
-
             username: this.f.username.value,
             email: this.f.email.value,
             name: this.f.name.value,
             password: this.f.password.value
         };
         
-        this._registerService.registerUser(data)
-        .then(() => {
-
+        await this._registerService.registerUser(data)
+        .then(async (response) => {
+            console.log(response);
             this.submitted = false;
             this.loading = false;
 
@@ -137,8 +136,8 @@ export class RegisterComponent implements OnInit, OnDestroy
                 duration        : 1000
             });
 
-            if(data.username) {
-                this._authService.login(data.username, this.f.password.value)
+            if(response) {
+                await this._authService.login(data.username, this.f.password.value)
                     .then(() => {
                         this._router.navigate(['dashboard']);
                     });
@@ -181,62 +180,6 @@ export class RegisterComponent implements OnInit, OnDestroy
             
 
         });
-
-
-        this._registerService.registerUser(data)
-            .then((data: any) => {
-
-                this.submitted = false;
-                this.loading = false;
-
-
-                this._matSnackBar.open('INICIANDO SESION...', 'OK', {
-                    verticalPosition: 'bottom',
-                    duration        : 1000
-                });
-
-                if(data.username) {
-                    this._authService.login(data.username, this.f.password.value)
-                        .then(() => {
-                            this._router.navigate(['dashboard']);
-                        });
-                }
-
-            }).catch((error: any) => {
-
-                this.submitted = false;
-                this.loading = false;
-
-
-                if(isString(error)) {
-
-                    if(error.toLowerCase().includes('enrollment')) {
-                        this._matSnackBar.open('MATRICULA YA REGISTRADA', 'OK', {
-                            verticalPosition: 'bottom',
-                            duration        : 4000
-                        });
-                    } else if(error.toLowerCase().includes('email')) {
-                        this._matSnackBar.open('CORREO ELECTRÓNICO YA REGISTRADO', 'OK', {
-                            verticalPosition: 'bottom',
-                            duration        : 4000
-                        });
-                    } else {
-                        this._matSnackBar.open('HUBO UN ERROR AL PROCESAR LA INFORMACION', 'OK', {
-                            verticalPosition: 'bottom',
-                            duration        : 5000
-                        });
-                    }
-
-                } else if (isArray(error)) {
-                    if(toArray(error)[0].toLowerCase().includes('email')) {
-                        this._matSnackBar.open('CORREO ELECTRÓNICO NO VALIDO', 'OK', {
-                            verticalPosition: 'bottom',
-                            duration        : 4000
-                        });
-                    }
-                }
-            
-            });
 
     }
 }

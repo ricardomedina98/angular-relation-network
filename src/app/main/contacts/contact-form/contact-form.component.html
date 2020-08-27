@@ -404,7 +404,7 @@
                 (click)="matDialogRef.close(['delete',contactForm])"
                 aria-label="Delete"
                 matTooltip="Delete">
-            DELETE
+            ELIMINAR
         </button>
 
         <button *ngIf="action !== 'edit'"
@@ -413,16 +413,16 @@
                 (click)="onSubmitAdd()"
                 [disabled]="contactForm.invalid"
                 aria-label="SAVE">
-            ADD
+            AGREGAR
         </button>
 
         <button *ngIf="action === 'edit'"
                 mat-button
                 class="save-button"
-                (click)="matDialogRef.close(['save',contactForm])"
+                (click)="onSubmitUpdate()"
                 [disabled]="contactForm.invalid"
                 aria-label="SAVE">
-            SAVE
+            GUARDAR
         </button>
 
     </div>

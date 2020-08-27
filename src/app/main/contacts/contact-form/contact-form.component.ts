@@ -218,7 +218,7 @@ export class ContactsContactFormDialogComponent implements OnInit {
             age: [this.contact.age],
             alias: [this.contact.alias],
             email: [this.contact.email],
-            timeMeet: [this.contact.timeMeet || moment()],
+            timeMeet: [this.contact.timeMeet],
             have_you_referred: [this.contact.have_you_referred || false],
             you_have_referred_contact: [this.contact.you_have_referred_contact.id_contact],
             has_referred_you: [this.contact.has_referred_you || false],
@@ -281,7 +281,7 @@ export class ContactsContactFormDialogComponent implements OnInit {
         .then(response => {
 
             this._matSnackBar.open('Contacto guardado correctamente', 'OK', {
-                verticalPosition: 'bottom',
+                verticalPosition: 'top',
                 duration        : 4000
             });
             
@@ -290,14 +290,37 @@ export class ContactsContactFormDialogComponent implements OnInit {
         })
         .catch(error => {
 
-            this._matSnackBar.open('Hubo un error al guardar al contacto', 'OK', {
-                verticalPosition: 'bottom',
+            this._matSnackBar.open('Hubo un error al guardar el contacto', 'OK', {
+                verticalPosition: 'top',
                 duration        : 4000
             });
             console.log(error);
             
         });
         //this.matDialogRef.close();
+    }
+
+    onSubmitUpdate() {
+        const contact = this.contactForm.getRawValue();
+        console.log(contact);
+        this._contactService.updateContact(contact)
+        .then(response => {
+
+            this._matSnackBar.open('Contacto actualizado correctamente', 'OK', {
+                verticalPosition: 'top',
+                duration        : 4000
+            });
+            
+            this.matDialogRef.close()
+
+        })
+        .catch(error => {
+            this._matSnackBar.open('Hubo un error al actualizar el contacto', 'OK', {
+                verticalPosition: 'top',
+                duration        : 4000
+            });
+            console.log(error);
+        });
     }
 
 }

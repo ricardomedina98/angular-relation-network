@@ -53,8 +53,8 @@
         <ng-container matColumnDef="typeRelationship">
             <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-lg>Tipo de Relacíon</mat-header-cell>
             <mat-cell *matCellDef="let contact" fxHide fxShow.gt-lg>
-                <p class="job-title text-truncate">
-                    {{contact.type_relationship}}
+                <p class="type-relationship text-truncate">
+                    {{contact.type_relationship.name}}
                 </p>
             </mat-cell>
         </ng-container>

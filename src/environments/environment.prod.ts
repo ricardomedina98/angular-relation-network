@@ -1,5 +1,5 @@
 export const environment = {
     production: true,
     hmr       : false,
-    api_url: 'http://localhost:5000/api'
+    api_url: 'https://rpt-relationship-network.herokuapp.com/api'
 };
