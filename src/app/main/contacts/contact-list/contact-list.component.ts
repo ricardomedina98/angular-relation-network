@@ -148,35 +148,6 @@ export class ContactsContactListComponent implements OnInit, OnDestroy
                 action : 'edit'
             }
         });
-
-        this.dialogRef.afterClosed()
-            .subscribe(response => {
-                if ( !response )
-                {
-                    return;
-                }
-                const actionType: string = response[0];
-                const formData: FormGroup = response[1];
-                switch ( actionType )
-                {
-                    /**
-                     * Save
-                     */
-                    case 'save':
-
-                        this._contactsService.updateContact(formData.getRawValue());
-
-                        break;
-                    /**
-                     * Delete
-                     */
-                    case 'delete':
-
-                        this.deleteContact(contact);
-
-                        break;
-                }
-            });
     }
 
     /**
@@ -188,7 +159,7 @@ export class ContactsContactListComponent implements OnInit, OnDestroy
             disableClose: false
         });
 
-        this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+        this.confirmDialogRef.componentInstance.confirmMessage = '¿Estás seguro de que quieres eliminar?';
 
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if ( result )

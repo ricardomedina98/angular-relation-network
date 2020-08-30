@@ -258,11 +258,16 @@ export class ContactsService implements Resolve<any>
      *
      * @param contact
      */
-    deleteContact(contact): void
+    deleteContact(contact: Contact): Promise<any>
     {
-        const contactIndex = this.contacts.indexOf(contact);
-        this.contacts.splice(contactIndex, 1);
-        this.onContactsChanged.next(this.contacts);
+        return new Promise((resolve, reject) => {
+
+            this._httpClient.delete(`${environment.api_url}/contacts/${contact.id_contact}`)
+                .subscribe(response => {
+                    this.getContacts();
+                    resolve(response);
+                });
+        });
     }
 
     /**
