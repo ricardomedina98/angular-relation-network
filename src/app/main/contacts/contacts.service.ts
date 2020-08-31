@@ -118,7 +118,6 @@ export class ContactsService implements Resolve<any>
             this._httpClient.get(`${environment.api_url}/users/contacts/starred`)
             .subscribe((response: any) => {
                 this.user = response;
-                console.log(this.user);
                 this.onUserDataChanged.next(this.user);
                 resolve(response);
             }, reject);

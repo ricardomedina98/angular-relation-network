@@ -113,10 +113,9 @@ $typography: mat-typography-config(
 @import "src/app/pages/forgot-password/forgot-password.theme.scss";
 @import "src/app/pages/reset-password/reset-password.theme.scss";
 @import "src/app/pages/register/register.theme.scss";
-
 @import "src/app/main/contacts/contacts.theme.scss";
-
 @import "src/app/main/users/users.theme.scss";
+@import "src/app/main/contacts/profile/tabs/about/about.theme.scss";
 
 
 // Define a mixin for easier access
@@ -125,13 +124,12 @@ $typography: mat-typography-config(
     // Layout components
     @include chat-panel-theme($theme);
     @include toolbar-theme($theme);
-
     @include login-theme($theme);
     @include forgot-password-theme($theme);
     @include reset-password-theme($theme);
     @include register-theme($theme);
-
     @include contacts-theme($theme);
+    @include profile-about-theme($theme);
     
 }
 

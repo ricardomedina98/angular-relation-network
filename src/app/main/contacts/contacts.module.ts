@@ -26,16 +26,27 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDividerModule } from '@angular/material/divider';
 import { MomentDateModule } from '@angular/material-moment-adapter';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { AuthenticationService } from 'app/services/authentification.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTabsModule } from '@angular/material/tabs';
 
+import { ProfileService } from './profile/profile.service';
+import { ProfileComponent } from './profile/profile.component';
+import { ProfileAboutComponent } from './profile/tabs/about/about.component';
+import { ProfileEditComponent } from "./profile/tabs/edit/edit.component";
 
 const routes: Routes = [
     {
-        path     : '**',
+        path     : '',
         component: ContactsComponent,
         resolve  : {
             contacts: ContactsService
+        }
+    },
+    {
+        path     : 'profile/:id',
+        component: ProfileComponent,
+        resolve  : {
+            profile: ProfileService
         }
     }
 ];
@@ -46,7 +57,12 @@ const routes: Routes = [
         ContactsContactListComponent,
         ContactsSelectedBarComponent,
         ContactsMainSidebarComponent,
-        ContactsContactFormDialogComponent
+        ContactsContactFormDialogComponent,
+
+
+        ProfileComponent,
+        ProfileAboutComponent,
+        ProfileEditComponent
     ],
     imports        : [
         RouterModule.forChild(routes),
@@ -68,13 +84,15 @@ const routes: Routes = [
         MomentDateModule,
         MatSlideToggleModule,
         MatSnackBarModule,
+        MatTabsModule,
 
         FuseSharedModule,
         FuseConfirmDialogModule,
         FuseSidebarModule
     ],
     providers      : [
-        ContactsService
+        ContactsService,
+        ProfileService
     ],
     entryComponents: [
         ContactsContactFormDialogComponent

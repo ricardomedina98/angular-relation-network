@@ -75,6 +75,10 @@
                     </button>
     
                     <mat-menu #moreMenu="matMenu">
+                        <button mat-menu-item aria-label="remove" (click)="editContact(contact)">
+                            <mat-icon>edit</mat-icon>
+                            <span>Editar</span>
+                        </button>
                         <button mat-menu-item aria-label="remove" (click)="deleteContact(contact)">
                             <mat-icon>delete</mat-icon>
                             <span>Eliminar</span>
@@ -88,7 +92,7 @@
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let contact; columns: displayedColumns;"
                  class="contact"
-                 (click)="editContact(contact)"
+                 [routerLink]="'profile/'+contact.id_contact"
                  [ngClass]="{'accent-50':checkboxes[contact.id_contact]}"
                  matRipple
                  [@animate]="{value:'*',params:{y:'100%'}}">

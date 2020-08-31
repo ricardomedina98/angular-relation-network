@@ -1,0 +1,56 @@
+<div id="profile" class="page-layout simple tabbed">
+
+    <!-- HEADER -->
+    <div class="header p-24" fxLayout="column" fxLayoutAlign="start center" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="space-between end">
+
+        <div class="user-info" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start center">
+
+             <button mat-icon-button class="mr-0 mr-sm-16" [routerLink]="'/dashboard/contacts'">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+
+            <img class="profile-image avatar huge" [src]="contact.avatar" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+
+            <div *ngIf="pageType === 'edit'" class="name" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                {{contact.name}} {{contact.firstSurname}} {{contact.secondSurname}}
+            </div>
+
+            <div *ngIf="pageType !== 'edit'" class="name" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                {{newContact?.name}} {{newContact?.firstSurname}} {{newContact?.secondSurname}}
+            </div>
+        </div>
+
+        <div class="actions" fxLayout="row" fxLayoutAlign="end center" [@animate]="{value:'*',params:{delay:'200ms'}}" *ngIf="pageType === 'edit'">
+            <button mat-raised-button color="accent" (click)="$event.stopPropagation(); toggleStar(contact.id_contact)" aria-label="Toggle star">
+                <mat-icon class="amber-fg" *ngIf="user.starredContacts.includes(contact.id_contact)">star</mat-icon>
+                <mat-icon *ngIf="!user.starredContacts.includes(contact.id_contact)">star_border</mat-icon>
+            </button>
+            <button mat-raised-button color="primary" aria-label="Send Message">Enviar Correo</button>
+        </div>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <mat-tab-group dynamicHeight="true">
+
+            <mat-tab label="Acerca de" *ngIf="pageType === 'edit'">
+                <profile-about></profile-about>
+            </mat-tab>
+
+            <mat-tab label="Editar" *ngIf="pageType === 'edit'">
+                <profile-edit></profile-edit>
+            </mat-tab>
+
+            <mat-tab label="Agregar" *ngIf="pageType !== 'edit'">
+                <profile-edit></profile-edit>
+            </mat-tab>
+
+        </mat-tab-group>
+
+    </div>
+    <!-- / CONTENT -->
+
+</div>

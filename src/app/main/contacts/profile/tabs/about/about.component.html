@@ -1,0 +1,122 @@
+<div id="about" class="p-24" fxLayout="row wrap">
+
+    <div class="about-content" fxLayout="column" fxFlex="100" fxFlex.gt-sm="50" fxFlex.gt-md="65">
+
+        <div class="profile-box info-box general" fxLayout="column">
+
+            <header class="accent">
+                <div class="title">Información General</div>
+            </header>
+
+            <div class="content">
+                <div class="info-line">
+                    <div class="title">Alias</div>
+                    <div class="info">{{contact.alias}}</div>
+                </div>
+
+                <div class="info-line">
+                    <div class="title">Edad</div>
+                    <div class="info">{{contact.age}}</div>
+                </div>
+
+                <div class="info-line">
+                    <div class="title">Titulo</div>
+                    <div class="info">{{contact.title?.name}}</div>
+                </div>
+
+                <div class="info-line">
+                    <div class="title">Genero</div>
+                    <div class="info">{{contact.gender?.name}}</div>
+                </div>
+
+                <div class="info-line">
+                    <div class="title">Estado Civil</div>
+                    <div class="info">{{contact.civilstatus?.name}}</div>
+                </div>
+
+                <div class="info-line">
+                    <div class="title">Tiempo de Conocerlo</div>
+                    <div class="info">{{calculateDiff()}}</div>
+                </div>
+
+                <div class="info-line">
+                    <div class="title">Dirección</div>
+                    <div class="info">{{contact.address?.city?.name}}, {{contact.address?.state?.name}}, {{contact.address?.postalCode}} {{contact.address?.country?.name}}</div>
+                </div>
+                
+            </div>
+
+        </div>
+
+        <div class="profile-box info-box work" fxLayout="column">
+
+            <header class="accent">
+                <div class="title">Mas...</div>
+            </header>
+
+            <div class="content">
+                <div class="info-line">
+                    <div class="title">Profesión</div>
+                    <div class="info">{{contact.profession?.name}}</div>
+                </div>
+
+                <div class="info-line">
+                    <div class="title">Ocupación</div>
+                    <div class="info">{{contact.ocupation?.name}}</div>
+                </div>
+
+                <div class="info-line">
+                    <div class="title">Clasificación</div>
+                    <div class="info">{{contact.clasification?.name}}</div>
+                </div>
+                
+                <div class="info-line">
+                    <div class="title">Pasatiempo</div>
+                    <div class="info">{{contact.hobbie?.name}}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-box info-box contact" fxLayout="column">
+
+            <header class="accent">
+                <div class="title">Contacto</div>
+            </header>
+
+            <div class="content">
+
+                <div class="info-line">
+                    <div class="title">Telefono</div>
+                    <div class="info">{{contact.phone}}</div>
+                </div>
+
+                <div class="info-line">
+                    <div class="title">Correo Electronico</div>
+                    <div class="info">{{contact.email}}</div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- <div class="about-sidebar" fxLayout="column" fxFlex="100" fxFlex.gt-sm="50" fxFlex.gt-md="35">
+
+
+        <div class="profile-box groups" fxLayout="column">
+
+            <header class="accent" fxLayout="row" fxLayoutAlign="space-between center">
+                <div class="title">Joined Groups</div>
+            </header>
+
+            <div class="content">
+
+                
+            </div>
+
+        </div>
+
+    </div> -->
+
+</div>

@@ -43,12 +43,12 @@ export class Contact
         },
         postalCode: number;
     };
-    createdAt: Date;
+    createdAt: moment.Moment;
     updatedAt: Date;
     
 
 
-    constructor(contact)
+    constructor(contact?)
     {
         {
             contact = contact || {};
@@ -95,7 +95,7 @@ export class Contact
                 }
             };
 
-            this.createdAt = contact.createdAt || "";
+            this.createdAt = moment(contact.createdAt) || moment();
             this.updatedAt = contact.updatedAt || "";
         }
     }
