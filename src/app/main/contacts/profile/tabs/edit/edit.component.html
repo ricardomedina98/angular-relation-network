@@ -243,6 +243,71 @@
 
             <div fxLayout="row" fxLayoutAlign="space-between center">
 
+                <mat-form-field appearance="outline" fxFlex="24" class="pr-8">
+                    <mat-label>País</mat-label>
+                    <mat-select formControlName="country" (ngModelChange)="onChangeCountries($event)">
+                        <mat-option *ngFor="let country of countries"  [value]="country.value">
+                            {{country.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                    <button *ngIf="contactForm.controls.country.value"
+                            matSuffix
+                            mat-icon-button
+                            type="button"
+                            aria-label="Clear"
+                            (click)="contactForm.controls.country.setValue(null); $event.stopPropagation()">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-icon *ngIf="!contactForm.controls.country.value" matSuffix class="secondary-text">outlined_flag</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" fxFlex="24" class="px-8">
+                    <mat-label>Estado</mat-label>
+                    <mat-select formControlName="state" (ngModelChange)="onChangeStates($event)">
+                        <mat-option *ngFor="let state of states" [value]="state.value">
+                            {{ state.viewValue }}
+                        </mat-option>
+                    </mat-select>
+                    <button *ngIf="contactForm.controls.state.value"
+                            matSuffix
+                            mat-icon-button
+                            type="button"
+                            aria-label="Clear"
+                            (click)="contactForm.controls.state.setValue(null); $event.stopPropagation()">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-icon *ngIf="!contactForm.controls.state.value" matSuffix class="secondary-text">outlined_flag</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" fxFlex="24" class="px-8">
+                    <mat-label>Ciudad</mat-label>
+                    <mat-select formControlName="city">
+                        <mat-option *ngFor="let city of cities" [value]="city.value">
+                            {{ city.viewValue }}
+                        </mat-option>
+                    </mat-select>
+                    <button *ngIf="contactForm.controls.city.value"
+                            matSuffix
+                            mat-icon-button
+                            type="button"
+                            aria-label="Clear"
+                            (click)="contactForm.controls.city.setValue(null); $event.stopPropagation()">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-icon *ngIf="!contactForm.controls.city.value" matSuffix class="secondary-text">outlined_flag</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" fxFlex="24" class="pl-8">
+                    <mat-label>Código Postal</mat-label>
+                    <input matInput #postalCode formControlName="postalCode" maxlength="5">
+                    <mat-icon matSuffix class="secondary-text">markunread_mailbox</mat-icon>
+                    <mat-hint align="end">{{postalCode.value.length}} / 5</mat-hint>
+                </mat-form-field>
+
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="space-between center">
+
                 <div fxLayout="column" fxFlex="50" fxLayoutAlign="start stretch">
 
                     <div fxLayout="row" fxLayoutAlign="center center">
@@ -308,6 +373,8 @@
 
                     
                 </div>
+
+                
 
 
             </div>
