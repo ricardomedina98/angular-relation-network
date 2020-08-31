@@ -1,7 +1,7 @@
 {
-    "name": "fuse",
-    "version": "8.1.2",
-    "license": "https://themeforest.net/licenses/terms/regular",
+    "name": "angular-nest-network",
+    "version": "0.1.0",
+    "license": "",
     "scripts": {
         "ng": "ng",
         "start": "ng serve --host 0.0.0.0 --disableHostCheck true --open --port 4300",
